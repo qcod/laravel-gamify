@@ -321,7 +321,7 @@ Similar to name you can change it by `$icon` property or by `getIcon()` method. 
 You have same `$level` property or by `getLevel()` method to change it.
 Its like category of badges, all badges are defined in `config/gamify.php` as `badge_levels`. If none is specified then `badge_default_level` will be used from config.
 
-**Warning ⚠️** Don't forget to clear the cache whenever you make any changes add or remove badges by running `php artisan cahce:forget gamify.badges.all`. ⚠️ 
+**Warning ⚠️** Don't forget to clear the cache whenever you make any changes add or remove badges by running `php artisan cache:forget gamify.badges.all`. ⚠️ 
 
 ### Use without Badge
 
