@@ -12,7 +12,7 @@ abstract class TestCase extends OrchestraTestCase
     /**
      * @inheritdoc
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
