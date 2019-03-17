@@ -25,4 +25,9 @@ class Post extends Model
     {
         return $this->hasOne(Reply::class, 'id', 'best_reply_id');
     }
+
+    public function reputations()
+    {
+        return $this->morphMany('QCod\Gamify\Reputation', 'subject');
+    }
 }

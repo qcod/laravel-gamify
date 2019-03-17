@@ -172,6 +172,20 @@ foreach($user->reputations as $reputation) {
 }
 ``` 
 
+If you want to get all the points given on a `subject` model. You should define a `morphMany` relations. For example on post model.
+
+```php
+    /**
+     * Get all the post's reputation.
+     */
+    public function reputations()
+    {
+        return $this->morphMany('QCod\Gamify\Reputation', 'subject');
+    }
+```
+
+Now you can get all the reputation given on a `Post` using `$post->reputations`.
+
 ### Configure a Point Type
 
 #### Point payee

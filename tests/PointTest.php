@@ -70,6 +70,26 @@ class PointTest extends TestCase
     }
 
     /**
+     * it can access a reputation payee and subject
+     *
+     * @test
+     */
+    public function it_can_access_a_reputation_payee_and_subject()
+    {
+        $user = $this->createUser();
+        $post = $this->createPost(['user_id' => $user->id]);
+
+        $user->givePoint(new FakeCreatePostPoint($post));
+
+        $point = $user->reputations()->first();
+
+        $this->assertEquals($user->id, $point->payee->id);
+        $this->assertEquals($post->id, $point->subject->id);
+
+        $this->assertEquals('FakeCreatePostPoint', $post->reputations->first()->name);
+    }
+
+    /**
      * it only adds unique point reward if property is set on point type
      *
      * @test

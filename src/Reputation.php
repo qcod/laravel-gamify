@@ -19,6 +19,16 @@ class Reputation extends Model
     }
 
     /**
+     * Get the owning subject model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function subject()
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * Undo last point
      *
      * @throws \Exception
