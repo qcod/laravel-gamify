@@ -337,6 +337,9 @@ Its like category of badges, all badges are defined in `config/gamify.php` as `b
 
 **Warning ⚠️** Don't forget to clear the cache whenever you make any changes add or remove badges by running `php artisan cache:forget gamify.badges.all`. ⚠️ 
 
+#### Get badges of user
+You can get a users badges by calling `$user->badges` which will return collection of badges for a user.
+
 ### Use without Badge
 
 If your app doesn't need **Badges** you should just use `HasReputations` trait instead of `Gamify`.  
