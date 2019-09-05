@@ -2,6 +2,8 @@
 
 namespace QCod\Gamify;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BadgeType
@@ -78,7 +80,7 @@ abstract class BadgeType
             return $level;
         }
 
-        return array_get(
+        return Arr::get(
             config('gamify.badge_levels', []),
             $level,
             config('gamify.badge_default_level', 1)
@@ -102,7 +104,7 @@ abstract class BadgeType
      */
     protected function getDefaultBadgeName()
     {
-        return ucwords(snake_case(class_basename($this), ' '));
+        return ucwords(Str::snake(class_basename($this), ' '));
     }
 
     /**
@@ -115,7 +117,7 @@ abstract class BadgeType
         return sprintf(
             '%s/%s%s',
             rtrim(config('gamify.badge_icon_folder', 'images/badges'), '/'),
-            kebab_case(class_basename($this)),
+            Str::kebab(class_basename($this)),
             config('gamify.badge_icon_extension', '.svg')
         );
     }
