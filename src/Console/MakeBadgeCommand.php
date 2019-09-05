@@ -48,4 +48,20 @@ class MakeBadgeCommand extends GeneratorCommand
     {
         return $rootNamespace.'\Gamify\Badges';
     }
+
+    /**
+     * Execute the console command.
+     *
+     * @return bool|null
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function handle()
+    {
+        // clear the cache for badges
+        cache()->forget('gamify.badges.all');
+
+        return parent::handle();
+    }
+
+
 }
