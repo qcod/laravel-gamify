@@ -2,7 +2,7 @@
 
 All notable changes to `qcod/laravel-gamify` will be documented in this file
 
-## 1.0.2 - 2019-09-05
+## 1.0.3 - 2019-09-05
 
 - Laravel 6 support
 
