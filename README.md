@@ -15,7 +15,7 @@ Use `qcod/laravel-gamify` to quickly add reputation point &amp; badges in your L
 $ composer require qcod/laravel-gamify
 ```
 
-**2** - If you are installing on Laravel 5.4 or lower you will be needed to manually register Service Provider by adding it in `config/app.php` providers array.
+**2** - If you are installing on Laravel 5.4 or lower you will be needed to manually register Service Provider by adding it in `config/app.php` providers array....
 
 ```php
 'providers' => [
