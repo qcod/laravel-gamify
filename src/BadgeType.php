@@ -5,6 +5,7 @@ namespace QCod\Gamify;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 abstract class BadgeType
 {
@@ -13,11 +14,18 @@ abstract class BadgeType
      */
     protected $model;
 
+    
+    /**
+     * @var Array
+     */
+    public $_extraVariablesForQualify;
+
     /**
      * BadgeType constructor.
      */
-    public function __construct()
+    public function __construct(...$extraVariablesForQualify)
     {
+        $this->_extraVariablesForQualify = $extraVariablesForQualify;
         $this->model = $this->storeBadge();
     }
 
@@ -27,7 +35,7 @@ abstract class BadgeType
      * @param $user
      * @return bool
      */
-    abstract public function qualifier($user);
+    abstract public function islevelArchived($user);
 
     /**
      * Get name of badge
@@ -65,6 +73,20 @@ abstract class BadgeType
             : $this->getDefaultIcon();
     }
 
+
+    /**
+     * Get the model for badge
+     *
+     * @return Model
+     */
+    public function getModel($level = null)
+    {
+        if ($level) {
+            return $this->model[$level];
+        }
+        return $this->model;
+    }
+
     /**
      * Get the level for badge
      *
@@ -92,9 +114,12 @@ abstract class BadgeType
      *
      * @return mixed
      */
-    public function getBadgeId()
+    public function getBadgeId($level = false)
     {
-        return $this->model->getKey();
+        if (!$level) {
+            $level = $this->getLevel();
+        }
+        return $this->model[$level]->getKey();
     }
 
     /**
@@ -129,16 +154,24 @@ abstract class BadgeType
      */
     protected function storeBadge()
     {
-        $badge = app(config('gamify.badge_model'))
-            ->firstOrNew(['name' => $this->getName()])
+        $badgeName = get_class($this);
+        
+        return cache()->tags('laravel-gamify')->rememberForever('gamify.badges.' . $badgeName, function () {
+            $levels = (property_exists($this, 'levels')) ? $this->levels : [$this->getLevel() => $this->getDescription()];
+            $return = [];
+            foreach ($levels as $levelKey => $levelDescription) {
+                $badge = app(config('gamify.badge_model'))
+            ->firstOrNew(['name' => $this->getName(), 'level' => $levelKey])
             ->forceFill([
-                'level' => $this->getLevel(),
-                'description' => $this->getDescription(),
+                'level' => $levelKey,
+                'description' => $levelDescription,
                 'icon' => $this->getIcon()
             ]);
 
-        $badge->save();
-
-        return $badge;
+                $badge->save();
+                $return[$levelKey] = $badge;
+            }
+            return $return;
+        });
     }
 }

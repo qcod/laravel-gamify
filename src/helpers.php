@@ -1,5 +1,6 @@
 <?php
 
+use QCod\Gamify\BadgeType;
 use QCod\Gamify\PointType;
 
 if (!function_exists('givePoint')) {
@@ -21,6 +22,14 @@ if (!function_exists('givePoint')) {
         $payee->givePoint($pointType);
     }
 }
+
+    function giveBadge(BadgeType $badge, $user = null, $forceLevel = null)
+    {
+        if (!$user) {
+            $user = auth()->user();
+        }
+        return $user->giveBadge($badge, $forceLevel = null);
+    }
 
 if (!function_exists('undoPoint')) {
 
@@ -55,10 +64,10 @@ if (!function_exists('short_number')) {
         if ($n >= 0 && $n < 1000) {
             $n_format = floor($n);
             $suffix = '';
-        } else if ($n >= 1000 && $n < 1000000) {
+        } elseif ($n >= 1000 && $n < 1000000) {
             $n_format = floor($n / 1000);
             $suffix = 'K+';
-        } else if ($n >= 1000000 && $n < 1000000000) {
+        } elseif ($n >= 1000000 && $n < 1000000000) {
             $n_format = floor($n / 1000000);
             $suffix = 'M+';
         } else {

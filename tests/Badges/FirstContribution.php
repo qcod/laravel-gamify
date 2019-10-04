@@ -20,7 +20,7 @@ class FirstContribution extends BadgeType
      * @param User $user
      * @return bool
      */
-    public function qualifier($user)
+    public function islevelArchived($user)
     {
         return $user->posts()->count() == 1;
     }

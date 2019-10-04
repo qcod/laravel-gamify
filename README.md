@@ -15,7 +15,7 @@ Use `qcod/laravel-gamify` to quickly add reputation point &amp; badges in your L
 $ composer require qcod/laravel-gamify
 ```
 
-**2** - If you are installing on Laravel 5.4 or lower you will be needed to manually register Service Provider by adding it in `config/app.php` providers array....
+**2** - If you are installing on Laravel 5.4 or lower you will be needed to manually register Service Provider by adding it in `config/app.php` providers array.
 
 ```php
 'providers' => [
@@ -310,14 +310,14 @@ class FirstContribution extends BadgeType
      * @param $user
      * @return bool
      */
-    public function qualifier($user)
+    public function islevelArchived($user)
     {
         return $user->getPoints() >= 1000;
     }
 }
 ```
 
-As you can see this badge has a `$description` field and a `qualifier($user)` method. 
+As you can see this badge has a `$description` field and a `islevelArchived($user)` method. 
 Gamify package will listen for any change in reputation point and it will run the user against all the available badges and assign all the badges user is qualified.
 
 #### Change badge name
