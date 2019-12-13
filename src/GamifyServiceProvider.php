@@ -10,6 +10,11 @@ use QCod\Gamify\Console\MakeBadgeCommand;
 use QCod\Gamify\Console\MakePointCommand;
 use QCod\Gamify\Events\ReputationChanged;
 
+use \RecursiveDirectoryIterator;
+use \RecursiveIteratorIterator;
+use \RecursiveRegexIterator;
+use \RegexIterator;
+
 class GamifyServiceProvider extends ServiceProvider
 {
     /**
@@ -77,10 +82,31 @@ class GamifyServiceProvider extends ServiceProvider
 
         $badges = [];
 
-        foreach (glob(app_path('/Gamify/Badges/') . '*.php') as $file) {
-            if (is_file($file)) {
-                $badges[] = app($badgeRootNamespace . '\\' . pathinfo($file, PATHINFO_FILENAME));
-            }
+        // Get the first folder for the app. Normally App
+        $rootFolder = substr($badgeRootNamespace, 0, strpos($badgeRootNamespace, '\\'));
+
+        // Create recursive searching classes
+        $directory  = new RecursiveDirectoryIterator(app_path('Gamify/Badges/')); 
+        $iterator   = new RecursiveIteratorIterator($directory);
+        $files      = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH); 
+
+        // loop through each file found
+        foreach ($files as $file) { 
+
+            // grab the directory for the file
+            $fileDirectory =  pathinfo($file[0], PATHINFO_DIRNAME); 
+            
+            //remove full server path and prepend the rootfolder 
+            $fileDirectory = $rootFolder.str_ireplace(app_path(), '', $fileDirectory);
+
+            // convert the forward slashes to backslashes
+            $fileDirectory = str_ireplace('/', '\\', $fileDirectory);
+
+            // get the file name
+            $fileName = pathinfo($file[0], PATHINFO_FILENAME); 
+
+            //append namespace file path to the badges array to return
+            $badges[] = $fileDirectory."\\".$fileName;
         }
 
         return collect($badges);
