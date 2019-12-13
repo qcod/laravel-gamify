@@ -82,7 +82,7 @@ class GamifyServiceProvider extends ServiceProvider
 
         $badges = [];
 
-        // Get the first folder for the app. Normally App
+        // Get the first folder for the app. For the vast majority of all projects this is "App"
         $rootFolder = substr($badgeRootNamespace, 0, strpos($badgeRootNamespace, '\\'));
 
         // Create recursive searching classes
