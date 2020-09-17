@@ -16,18 +16,35 @@ trait HasBadges
     }
 
     /**
-     * Sync badges for qiven user
-     *
-     * @param $user
-     */
-    public function syncBadges($user = null)
+      * Give badge to user
+      *
+      * @param BadgeType $badge
+      * @param $preDefinedBadgeLevel int
+      * @return bool
+      */
+    public function giveBadge(BadgeType $badge, $forceLevel = null)
     {
-        $user = is_null($user) ? $this : $user;
+        if (!is_null($forceLevel)) {
+            return $badge->getModel($forceLevel)->awardTo($this);
+        }
 
-        $badgeIds = app('badges')->filter
-            ->qualifier($user)
-            ->map->getBadgeId();
 
-        $user->badges()->sync($badgeIds);
+        if (!($level = $badge->islevelArchived($this, $badge->_extraVariablesForQualify))) {
+            return false;
+        }
+        if (!is_numeric($level)) {
+            $level = config('gamify.badge_default_level', 1);
+        }
+        
+        return $badge->getModel($level)->awardTo($this);
+    }
+
+    public function removeBadge(BadgeType $badge)
+    {
+        if (!($level = $badge->islevelArchived($this, $badge->_extraVariablesForQualify))) {
+            return false;
+        }
+        
+        return $this->model[$level]->removeBadge($this);
     }
 }

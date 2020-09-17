@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 abstract class PointType
 {
+
     /**
      * Subject for reputation
      *
@@ -79,6 +80,11 @@ abstract class PointType
         if (!isset($this->points)) {
             throw new PointsNotDefined();
         }
+        $rates = config('gamify.user_level_xp_rate', [0 => 1]);
+
+        if (is_integer($this->payee()->level) && isset($rates[$this->payee()->level])) {
+            return $this->points * $rates[$this->payee()->level];
+        }
 
         return $this->points;
     }
@@ -86,7 +92,7 @@ abstract class PointType
     /**
      * Set a subject
      *
-     * @param mixed $subject
+     * @param  mixed  $subject
      */
     public function setSubject($subject)
     {
@@ -118,19 +124,19 @@ abstract class PointType
     /**
      * Store a reputation in the database
      *
-     * @param array $meta
+     * @param  array  $meta
      * @return mixed
      * @throws InvalidPayeeModel
      */
     public function storeReputation($meta = [])
     {
         return $this->payeeReputations()->create([
-            'payee_id' => $this->payee()->id,
+            'payee_id'     => $this->payee()->id,
             'subject_type' => $this->getSubject()->getMorphClass(),
-            'subject_id' => $this->getSubject()->getKey(),
-            'name' => $this->getName(),
-            'meta' => json_encode($meta),
-            'point' => $this->getPoints()
+            'subject_id'   => $this->getSubject()->getKey(),
+            'name'         => $this->getName(),
+            'meta'         => json_encode($meta),
+            'point'        => $this->getPoints(),
         ]);
     }
 
@@ -146,7 +152,7 @@ abstract class PointType
             ['payee_id', $this->payee()->id],
             ['subject_type', $this->getSubject()->getMorphClass()],
             ['subject_id', $this->getSubject()->getKey()],
-            ['name', $this->getName()]
+            ['name', $this->getName()],
         ]);
     }
 

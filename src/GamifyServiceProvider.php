@@ -4,7 +4,6 @@ namespace QCod\Gamify;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
-use QCod\Gamify\Listeners\SyncBadges;
 use Illuminate\Support\ServiceProvider;
 use QCod\Gamify\Console\MakeBadgeCommand;
 use QCod\Gamify\Console\MakePointCommand;
@@ -42,9 +41,6 @@ class GamifyServiceProvider extends ServiceProvider
                 MakeBadgeCommand::class,
             ]);
         }
-
-        // register event listener
-        Event::listen(ReputationChanged::class, SyncBadges::class);
     }
 
     /**
@@ -55,11 +51,11 @@ class GamifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('badges', function () {
-            return cache()->rememberForever('gamify.badges.all', function () {
-                return $this->getBadges()->map(function ($badge) {
-                    return new $badge;
-                });
+            //return cache()->rememberForever('gamify.badges.all', function () {
+            return $this->getBadges()->map(function ($badge) {
+                return new $badge;
             });
+            //});
         });
     }
 
@@ -79,7 +75,7 @@ class GamifyServiceProvider extends ServiceProvider
 
         foreach (glob(app_path('/Gamify/Badges/') . '*.php') as $file) {
             if (is_file($file)) {
-                $badges[] = app($badgeRootNamespace . '\\' . pathinfo($file, PATHINFO_FILENAME));
+                $badges[] = $badgeRootNamespace . '\\' . pathinfo($file, PATHINFO_FILENAME); // this was cousing double construct becouse of singleton construct again.
             }
         }
 

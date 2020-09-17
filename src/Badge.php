@@ -3,6 +3,8 @@
 namespace QCod\Gamify;
 
 use Illuminate\Database\Eloquent\Model;
+use QCod\Gamify\Events\BadgeGivenEvent;
+use QCod\Gamify\Events\BadgeRemovedEvent;
 
 class Badge extends Model
 {
@@ -24,7 +26,9 @@ class Badge extends Model
      */
     public function awardTo($user)
     {
-        $this->users()->attach($user);
+        $event = config('gamify.events.badgeGiven', 'QCod\Gamify\Events\BadgeGivenEvent');
+        event(new $event($this, $user));
+        $this->users()->syncWithoutDetaching($user);
     }
 
     /**
@@ -34,6 +38,8 @@ class Badge extends Model
      */
     public function removeFrom($user)
     {
+        $event = config('gamify.events.badgeRemoved', 'QCod\Gamify\Events\BadgeGivenEvent');
+        event(new $event($this, $user));
         $this->users()->detach($user);
     }
 }

@@ -19,7 +19,7 @@ class DummyClass extends BadgeType
      * @param $user
      * @return bool
      */
-    public function qualifier($user)
+    public function islevelArchived($user)
     {
         return $user->getPoints() >= 1000;
     }
