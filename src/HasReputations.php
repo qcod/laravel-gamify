@@ -14,6 +14,7 @@ trait HasReputations
      */
     public function givePoint(PointType $pointType)
     {
+        $pointType->setPayee($this);
         if (!$pointType->qualifier()) {
             return false;
         }
