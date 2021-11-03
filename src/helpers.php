@@ -1,6 +1,6 @@
 <?php
 
-use QCod\Gamify\PointType;
+use JawabApp\Gamify\PointType;
 
 if (!function_exists('givePoint')) {
 

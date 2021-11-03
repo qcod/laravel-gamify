@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use QCod\Gamify\BadgeType;
+use JawabApp\Gamify\BadgeType;
 
 class DummyClass extends BadgeType
 {

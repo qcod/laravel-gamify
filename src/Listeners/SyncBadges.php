@@ -1,8 +1,9 @@
 <?php
 
-namespace QCod\Gamify\Listeners;
+namespace JawabApp\Gamify\Listeners;
 
-use QCod\Gamify\Events\ReputationChanged;
+use JawabApp\Gamify\Events\ReputationChanged;
+use Illuminate\Support\Facades\Log;
 
 class SyncBadges
 {

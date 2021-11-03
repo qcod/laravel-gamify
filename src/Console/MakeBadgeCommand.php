@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify\Console;
+namespace JawabApp\Gamify\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -34,7 +34,7 @@ class MakeBadgeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/badge.stub';
+        return __DIR__ . '/stubs/badge.stub';
     }
 
     /**
@@ -46,7 +46,7 @@ class MakeBadgeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Gamify\Badges';
+        return $rootNamespace . '\Gamify\Badges';
     }
 
     /**
@@ -62,6 +62,4 @@ class MakeBadgeCommand extends GeneratorCommand
 
         return parent::handle();
     }
-
-
 }

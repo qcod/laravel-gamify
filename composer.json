@@ -5,7 +5,7 @@
   "type": "library",
   "license": "MIT",
   "keywords": [
-    "qcod",
+    "jawabapp",
     "laravel",
     "achivement",
     "gamify",
@@ -17,12 +17,12 @@
   ],
   "authors": [
     {
-      "name": "Mohd Saqueib Ansari",
-      "email": "saquibweb@gmail.com"
+      "name": "Ahmed Magdy",
+      "email": "trmdy@hotmail.com"
     }
   ],
   "require": {
-    "php": ">=7.3.0",
+    "php": ">=7.1.33",
     "laravel/framework": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0"
   },
   "require-dev": {
@@ -32,7 +32,7 @@
   },
   "autoload": {
     "psr-4": {
-      "QCod\\Gamify\\": "src/"
+      "JawabApp\\Gamify\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -40,13 +40,13 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "QCod\\Gamify\\Tests\\": "tests/"
+      "JawabApp\\Gamify\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "QCod\\Gamify\\GamifyServiceProvider"
+        "JawabApp\\Gamify\\GamifyServiceProvider"
       ]
     }
   },

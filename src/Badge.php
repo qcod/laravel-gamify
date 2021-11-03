@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,15 @@ class Badge extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('gamify.payee_model'), 'user_badges')
+        $table_name = app(config('gamify.payee_model'))->getTable() ?? 'users';
+        $linkable_column_name = snake_case(str_singular($table_name));
+
+        return $this->belongsToMany(
+            config('gamify.payee_model'),
+            $linkable_column_name . '_badges',
+            'badge_id',
+            $linkable_column_name . '_id'
+        )
             ->withTimestamps();
     }
 

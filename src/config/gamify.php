@@ -5,7 +5,7 @@ return [
     'payee_model' => '\App\User',
 
     // Reputation model
-    'reputation_model' => '\QCod\Gamify\Reputation',
+    'reputation_model' => '\JawabApp\Gamify\Reputation',
 
     // Allow duplicate reputation points
     'allow_reputation_duplicate' => true,
@@ -17,7 +17,7 @@ return [
     'channel_name' => 'user.reputation.',
 
     // Badge model
-    'badge_model' => '\QCod\Gamify\Badge',
+    'badge_model' => '\JawabApp\Gamify\Badge',
 
     // Where all badges icon stored
     'badge_icon_folder' => 'images/badges/',

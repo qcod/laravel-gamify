@@ -1,14 +1,14 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
-use QCod\Gamify\Listeners\SyncBadges;
+use JawabApp\Gamify\Listeners\SyncBadges;
 use Illuminate\Support\ServiceProvider;
-use QCod\Gamify\Console\MakeBadgeCommand;
-use QCod\Gamify\Console\MakePointCommand;
-use QCod\Gamify\Events\ReputationChanged;
+use JawabApp\Gamify\Console\MakeBadgeCommand;
+use JawabApp\Gamify\Console\MakePointCommand;
+use JawabApp\Gamify\Events\ReputationChanged;
 
 class GamifyServiceProvider extends ServiceProvider
 {

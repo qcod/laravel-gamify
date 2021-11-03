@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify\Console;
+namespace JawabApp\Gamify\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -46,6 +46,6 @@ class MakePointCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Gamify\Points';
+        return $rootNamespace . '\Gamify\Points';
     }
 }

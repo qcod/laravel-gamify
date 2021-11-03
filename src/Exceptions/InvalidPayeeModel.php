@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify\Exceptions;
+namespace JawabApp\Gamify\Exceptions;
 
 class InvalidPayeeModel extends \Exception
 {

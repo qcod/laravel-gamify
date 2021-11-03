@@ -1,8 +1,8 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
-use QCod\Gamify\Events\ReputationChanged;
+use JawabApp\Gamify\Events\ReputationChanged;
 
 trait HasReputations
 {
@@ -88,9 +88,11 @@ trait HasReputations
      * @param int $point
      * @return HasReputations
      */
-    public function reducePoint($point = 1)
+    public function reducePoint(Reputation $reputation, $point = 1)
     {
         $this->decrement($this->getReputationField(), $point);
+
+        $reputation->delete();
 
         ReputationChanged::dispatch($this, $point, false);
 

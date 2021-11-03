@@ -1,9 +1,9 @@
 <?php
 
-namespace QCod\Gamify\Tests\Badges;
+namespace JawabApp\Gamify\Tests\Badges;
 
-use QCod\Gamify\BadgeType;
-use QCod\Gamify\Tests\Models\User;
+use JawabApp\Gamify\BadgeType;
+use JawabApp\Gamify\Tests\Models\User;
 
 class FirstContribution extends BadgeType
 {

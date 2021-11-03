@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,8 +36,7 @@ class Reputation extends Model
     public function undo()
     {
         if ($this->exists) {
-            $this->payee->reducePoint($this->point);
-            $this->delete();
+            $this->payee->reducePoint($this, $this->point);
         }
     }
 }

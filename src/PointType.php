@@ -1,12 +1,12 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
-use QCod\Gamify\Exceptions\PointsNotDefined;
-use QCod\Gamify\Exceptions\InvalidPayeeModel;
-use QCod\Gamify\Exceptions\PointSubjectNotSet;
+use JawabApp\Gamify\Exceptions\PointsNotDefined;
+use JawabApp\Gamify\Exceptions\InvalidPayeeModel;
+use JawabApp\Gamify\Exceptions\PointSubjectNotSet;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 abstract class PointType
@@ -142,6 +142,7 @@ abstract class PointType
      */
     public function reputationQuery()
     {
+
         return $this->payeeReputations()->where([
             ['payee_id', $this->payee()->id],
             ['subject_type', $this->getSubject()->getMorphClass()],

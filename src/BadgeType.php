@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;

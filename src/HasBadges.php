@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify;
+namespace JawabApp\Gamify;
 
 trait HasBadges
 {
@@ -11,7 +11,15 @@ trait HasBadges
      */
     public function badges()
     {
-        return $this->belongsToMany(config('gamify.badge_model'), 'user_badges')
+        $table_name = app(config('gamify.payee_model'))->getTable() ?? 'users';
+        $linkable_column_name = snake_case(str_singular($table_name));
+
+        return $this->belongsToMany(
+            config('gamify.payee_model'),
+            $linkable_column_name . '_badges',
+            $linkable_column_name . '_id',
+            'badge_id'
+        )
             ->withTimestamps();
     }
 

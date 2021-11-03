@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify\Tests\Models;
+namespace JawabApp\Gamify\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +28,6 @@ class Post extends Model
 
     public function reputations()
     {
-        return $this->morphMany('QCod\Gamify\Reputation', 'subject');
+        return $this->morphMany('JawabApp\Gamify\Reputation', 'subject');
     }
 }

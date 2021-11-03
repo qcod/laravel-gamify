@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use QCod\Gamify\PointType;
+use JawabApp\Gamify\PointType;
 
 class DummyClass extends PointType
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace QCod\Gamify\Tests;
+namespace JawabApp\Gamify\Tests;
 
-use QCod\Gamify\PointType;
-use QCod\Gamify\Tests\Models\User;
-use QCod\Gamify\Exceptions\InvalidPayeeModel;
-use QCod\Gamify\Exceptions\PointsNotDefined;
-use QCod\Gamify\Exceptions\PointSubjectNotSet;
+use JawabApp\Gamify\PointType;
+use JawabApp\Gamify\Tests\Models\User;
+use JawabApp\Gamify\Exceptions\InvalidPayeeModel;
+use JawabApp\Gamify\Exceptions\PointsNotDefined;
+use JawabApp\Gamify\Exceptions\PointSubjectNotSet;
 
 class PointTest extends TestCase
 {

@@ -6,6 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateGamifyTables extends Migration
 {
+    private $table_name;
+
+    private $linkable_column_name;
+
+    /**
+     * BadgeType constructor.
+     */
+    public function __construct()
+    {
+        $this->table_name = app(config('gamify.payee_model'))->getTable() ?? 'users';
+        $this->linkable_column_name = snake_case(str_singular($this->table_name));
+    }
+
     /**
      * Run the migrations.
      *
@@ -36,9 +49,9 @@ class CreateGamifyTables extends Migration
         });
 
         // user_badges pivot
-        Schema::create('user_badges', function (Blueprint $table) {
-            $table->primary(['user_id', 'badge_id']);
-            $table->unsignedInteger('user_id');
+        Schema::create($this->linkable_column_name . '_badges', function (Blueprint $table) {
+            $table->primary([$this->linkable_column_name . '_id', 'badge_id']);
+            $table->unsignedInteger($this->linkable_column_name . '_id');
             $table->unsignedInteger('badge_id');
             $table->timestamps();
         });
@@ -51,7 +64,7 @@ class CreateGamifyTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_badges');
+        Schema::dropIfExists($this->linkable_column_name . '_badges');
         Schema::dropIfExists('badges');
         Schema::dropIfExists('reputations');
     }
