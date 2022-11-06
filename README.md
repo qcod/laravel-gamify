@@ -136,9 +136,23 @@ $user->undoPoint(new PostCreated($post));
 $post->delete();
 ```
 
-You can also pass second argument as $user in helper function `givePoint(new PostCreated($post, $user))`, default is auth()->user().
+You can also pass second argument as $user in helper function `givePoint(new PostCreated($post) $user)`, default is auth()->user().
 
 **Pro Tip 👌** You could also hook into the Eloquent model event and give point on `created` event. Similarly, `deleted` event can be used to undo the point.
+
+### Give or update points to User
+
+There may be a situation where the points given for a reputation record changes over time. For example, a comment to a post that can be up voted. Those votes are given to the commenter as they come in.
+
+For this situation you can use the `giveOrUpdatePoint` helper which will give the points or update them automatically to the user's reputation total
+
+``` php
+// create initial reputation record with 5 points
+giveOrUpdatePoint(new PostCommentVotes($postComment, 5), $user);
+
+// update reputation record to 20 points for the same $postComment db record
+giveOrUpdatePoint(new PostCommentVotes($postComment, 20), $user);
+```
 
 ### Get total reputation
 
