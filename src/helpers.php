@@ -22,26 +22,6 @@ if (!function_exists('givePoint')) {
     }
 }
 
-if (!function_exists('giveOrUpdatePoint')) {
-    
-    /**
-     * Give point to user
-     *
-     * @param PointType $pointType
-     * @param null $payee
-     */
-    function giveOrUpdatePoint(PointType $pointType, $payee = null)
-    {
-        $payee = $payee ?? auth()->user();
-
-        if (!$payee) {
-            return;
-        }
-
-        $payee->giveOrUpdatePoint($pointType);
-    }
-}
-
 if (!function_exists('undoPoint')) {
 
     /**

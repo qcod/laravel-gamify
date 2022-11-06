@@ -24,26 +24,6 @@ trait HasReputations
     }
 
     /**
-     * Give or update reputation points to payee
-     * 
-     * @param PointType $pointType
-     * @return bool
-     */
-    public function giveOrUpdatePoint(PointType $pointType)
-    {
-        if (!$pointType->qualifier()) {
-            return false;
-        }
-
-        if ($pointType->reputationExists()) {
-            $originalPoints = $pointType->syncPointsChange();
-            return $pointType->payee()->syncPointsChange($originalPoints, $pointType->getPoints());
-        }else if ($this->storeReputation($pointType)) {
-            return $pointType->payee()->addPoint($pointType->getPoints());
-        }
-    }
-
-    /**
      * Undo last given point for a subject model
      *
      * @param PointType $pointType
@@ -98,22 +78,6 @@ trait HasReputations
         $this->increment($this->getReputationField(), $point);
 
         ReputationChanged::dispatch($this, $point, true);
-
-        return $this;
-    }
-
-    /**
-     * Sync points changed for a reputation record to a payee
-     * 
-     * @param int $point
-     * @return HasReputations|\Illuminate\Database\Eloquent\Model
-     */
-    public function syncPointsChange($originalPoints, $newPoints = 1)
-    {
-        $this->decrement($this->getReputationField(), $originalPoints);
-        $this->increment($this->getReputationField(), $newPoints);
-
-        ReputationChanged::dispatch($this, $newPoints, true);
 
         return $this;
     }
