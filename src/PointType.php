@@ -135,6 +135,20 @@ abstract class PointType
     }
 
     /**
+     * Sync updates to points to an existing reputation record
+     * @return int $originalPoints
+     */
+    public function syncPointsChange()
+    {
+        $dbPointType = $this->firstReputation();
+        $originalPoints = $dbPointType->point;
+        $dbPointType->update([
+            'point' => $this->getPoints()
+        ]);
+        return $originalPoints;
+    }
+
+    /**
      * Get reputation query for this point
      *
      * @return Builder
