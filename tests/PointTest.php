@@ -70,6 +70,41 @@ class PointTest extends TestCase
     }
 
     /**
+     * it gives point to a user, then updates it validating that that change
+     *
+     * @test
+     */
+    public function it_gives_and_updates_points_to_a_user()
+    {
+        $user = $this->createUser();
+        $post = $this->createPost(['user_id' => $user->id]);
+
+        $user->giveOrUpdatePoint(new FakeUpdateablePostPoint($post));
+
+        $this->assertEquals(1, $user->fresh()->getPoints());
+        $this->assertCount(1, $user->reputations);
+        $this->assertDatabaseHas('reputations', [
+            'payee_id' => $user->id,
+            'subject_type' => $post->getMorphClass(),
+            'subject_id' => $post->id,
+            'point' => 1,
+            'name' => 'FakeUpdateablePostPoint'
+        ]);
+
+        $user->giveOrUpdatePoint(new FakeUpdateablePostPoint($post, 5));
+
+        $this->assertEquals(5, $user->fresh()->getPoints());
+        $this->assertCount(1, $user->reputations);
+        $this->assertDatabaseHas('reputations', [
+            'payee_id' => $user->id,
+            'subject_type' => $post->getMorphClass(),
+            'subject_id' => $post->id,
+            'point' => 5,
+            'name' => 'FakeUpdateablePostPoint'
+        ]);
+    }
+
+    /**
      * it can access a reputation payee and subject
      *
      * @test
@@ -261,6 +296,24 @@ class FakeCreatePostPoint extends PointType
     public function __construct($subject)
     {
         $this->subject = $subject;
+    }
+
+    public function payee()
+    {
+        return $this->getSubject()->user;
+    }
+}
+
+class FakeUpdateablePostPoint extends PointType
+{
+    protected $points = 1;
+
+    public $allowDuplicates = false;
+
+    public function __construct($subject, $points = 1)
+    {
+        $this->subject = $subject;
+        $this->points = $points;
     }
 
     public function payee()
