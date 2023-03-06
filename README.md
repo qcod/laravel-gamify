@@ -136,7 +136,7 @@ $user->undoPoint(new PostCreated($post));
 $post->delete();
 ```
 
-You can also pass second argument as $user in helper function `givePoint(new PostCreated($post, $user))`, default is auth()->user().
+You can also pass second argument as $user in helper function `givePoint(new PostCreated($post), $user)`, default is auth()->user().
 
 **Pro Tip 👌** You could also hook into the Eloquent model event and give point on `created` event. Similarly, `deleted` event can be used to undo the point.
 
