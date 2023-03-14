@@ -7,6 +7,11 @@ return [
     // Reputation model
     'reputation_model' => '\QCod\Gamify\Reputation',
 
+    // Event models 
+    'gamify.events.badgeGive' => 'QCod\Gamify\Events\BadgeGivenEvent',
+    'gamify.events.removeBadge' => 'QCod\Gamify\Events\RemovedEvent',
+    'gamify.events.reputationChanged' => 'QCod\Gamify\Events\ReputationChanged',
+
     // Allow duplicate reputation points
     'allow_reputation_duplicate' => true,
 

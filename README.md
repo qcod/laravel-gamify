@@ -310,14 +310,14 @@ class FirstContribution extends BadgeType
      * @param $user
      * @return bool
      */
-    public function qualifier($user)
+    public function islevelArchived($user)
     {
         return $user->getPoints() >= 1000;
     }
 }
 ```
 
-As you can see this badge has a `$description` field and a `qualifier($user)` method. 
+As you can see this badge has a `$description` field and a `islevelArchived($user)` method. 
 Gamify package will listen for any change in reputation point and it will run the user against all the available badges and assign all the badges user is qualified.
 
 #### Change badge name
