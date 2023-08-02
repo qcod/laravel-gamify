@@ -12,11 +12,8 @@ use QCod\Gamify\Tests\Fixtures\Models\User;
 
 abstract class TestCase extends OrchestraTestCase
 {
-    /** @inheritdoc */
-    protected function setUp(): void
+    protected function defineDatabaseMigrations(): void
     {
-        parent::setUp();
-
         $this->loadMigrationsFrom(__DIR__ . '/Fixtures/database/migrations');
     }
 
