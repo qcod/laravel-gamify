@@ -2,174 +2,72 @@
 
 declare(strict_types=1);
 
-namespace QCod\Gamify\Tests\Feature;
-
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use QCod\Gamify\Events\ReputationChanged;
-use QCod\Gamify\PointType;
-use QCod\Gamify\Tests\TestCase;
 
-class ReputationTest extends TestCase
-{
-    use RefreshDatabase;
+use function PHPUnit\Framework\assertEquals;
 
-    /**
-     * it gets user points
-     *
-     * @test
-     */
-    public function it_gets_user_points()
-    {
-        $user = $this->createUser(['reputation' => 10]);
+uses(RefreshDatabase::class);
 
-        $this->assertEquals(10, $user->getPoints());
-    }
+it('gets user points', function () {
+    $user = createUser(['reputation' => 10]);
 
-    /**
-     * it gives reputation point to a user
-     *
-     * @test
-     */
-    public function it_gives_reputation_point_to_a_user()
-    {
-        $user = $this->createUser();
-        $this->assertEquals(0, $user->getPoints());
+    assertEquals(10, $user->getPoints());
+});
 
-        $user->addPoint(10);
+it('gives reputation point to a user', function () {
+    $user = createUser();
+    assertEquals(0, $user->getPoints());
 
-        $this->assertEquals(10, $user->fresh()->getPoints());
-    }
+    $user->addPoint(10);
 
-    /**
-     * it reduces reputation point for a user
-     *
-     * @test
-     */
-    public function it_reduces_reputation_point_for_a_user()
-    {
-        $user = $this->createUser(['reputation' => 20]);
-        $this->assertEquals(20, $user->reputation);
+    assertEquals(10, $user->fresh()->getPoints());
+});
 
-        $user->reducePoint(5);
+it('reduces reputation point for a user', function () {
+    $user = createUser(['reputation' => 20]);
+    assertEquals(20, $user->reputation);
 
-        $this->assertEquals(15, $user->fresh()->getPoints());
-    }
+    $user->reducePoint(5);
 
-    /**
-     * it zeros reputation point of a user
-     *
-     * @test
-     */
-    public function it_zeros_reputation_point_of_a_user()
-    {
-        $user = $this->createUser(['reputation' => 50]);
-        $this->assertEquals(50, $user->getPoints());
+    assertEquals(15, $user->fresh()->getPoints());
+});
 
-        $user->resetPoint();
+it('zeros reputation point of a user', function () {
+    $user = createUser(['reputation' => 50]);
+    assertEquals(50, $user->getPoints());
 
-        $this->assertEquals(0, $user->fresh()->getPoints());
-    }
+    $user->resetPoint();
 
-    /**
-     * it fires event on reputation change
-     *
-     * @test
-     */
-    public function it_fires_event_on_reputation_change()
-    {
-        Event::fake();
+    assertEquals(0, $user->fresh()->getPoints());
+});
 
-        $user = $this->createUser();
-        $this->assertEquals(0, $user->getPoints());
+it('fires event on reputation change', function () {
+    Event::fake();
 
-        $user->addPoint(10);
+    $user = createUser();
+    assertEquals(0, $user->getPoints());
 
-        Event::assertDispatched(ReputationChanged::class, function ($event) use ($user) {
-            return ($event->point === 10 && $user->id == $event->user->id && $event->increment);
-        });
+    $user->addPoint(10);
 
-        $this->assertEquals(10, $user->fresh()->getPoints());
-    }
+    Event::assertDispatched(ReputationChanged::class, function ($event) use ($user) {
+        return ($event->point === 10 && $user->id == $event->user->id && $event->increment);
+    });
 
-    /**
-     * it fires event on reputation reduced
-     *
-     * @test
-     */
-    public function it_fires_event_on_reputation_reduced()
-    {
-        Event::fake();
+    assertEquals(10, $user->fresh()->getPoints());
+});
 
-        $user = $this->createUser(['reputation' => 10]);
+it('fires event on reputation reduced', function () {
+    Event::fake();
 
-        $user->reducePoint(3);
+    $user = createUser(['reputation' => 10]);
 
-        Event::assertDispatched(ReputationChanged::class, function ($event) use ($user) {
-            return ($event->point === 3 && $user->id == $event->user->id && ! $event->increment);
-        });
+    $user->reducePoint(3);
 
-        $this->assertEquals(7, $user->fresh()->getPoints());
-    }
-}
+    Event::assertDispatched(ReputationChanged::class, function ($event) use ($user) {
+        return ($event->point === 3 && $user->id == $event->user->id && ! $event->increment);
+    });
 
-class FakePostCreated extends PointType
-{
-    protected $points = 10;
-
-    public function __construct($model)
-    {
-        $this->setSubject($model);
-    }
-
-    /**
-     * Check qualification for this point
-     *
-     * @return bool
-     */
-    public function qualifier()
-    {
-        return true;
-    }
-
-    /**
-     * User who will be recieving point
-     *
-     * @return Model
-     */
-    public function payee()
-    {
-        return $this->getSubject()->user;
-    }
-}
-
-class FakeBestReply extends PointType
-{
-    protected $points = 50;
-
-    public function __construct($model)
-    {
-        $this->setSubject($model);
-    }
-
-    /**
-     * Check qualification for this point
-     *
-     * @return bool
-     */
-    public function qualifier()
-    {
-        return ! is_null($this->getSubject()->best_reply_id);
-    }
-
-    /**
-     * User who will be recieving point
-     *
-     * @return Model
-     */
-    public function payee()
-    {
-        return $this->getSubject()->bestReply->user;
-    }
-}
+    assertEquals(7, $user->fresh()->getPoints());
+});
