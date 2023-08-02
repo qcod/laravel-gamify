@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    public $table = 'posts';
+    public $table = 'test_posts';
 
     protected $guarded = [];
-    protected $connection = 'testbench';
 
     public function replies()
     {

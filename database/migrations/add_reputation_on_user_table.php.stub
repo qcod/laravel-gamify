@@ -10,14 +10,14 @@ class AddReputationFieldOnUserTable extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table(app(config('gamify.payee_model'))->getTable(), function (Blueprint $table) {
             $table->unsignedInteger('reputation')->default(0)->after('remember_token');
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table(app(config('gamify.payee_model'))->getTable(), function (Blueprint $table) {
             $table->dropColumn('reputation');
         });
     }

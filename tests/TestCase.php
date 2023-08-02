@@ -9,6 +9,8 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use QCod\Gamify\GamifyServiceProvider;
 use QCod\Gamify\Tests\Fixtures\Badges\FirstContribution;
 use QCod\Gamify\Tests\Fixtures\Badges\FirstThousandPoints;
+use QCod\Gamify\Tests\Fixtures\Models\Post;
+use QCod\Gamify\Tests\Fixtures\Models\Reply;
 use QCod\Gamify\Tests\Fixtures\Models\User;
 use AddReputationFieldOnUserTable;
 use CreateGamifyTables;
@@ -25,7 +27,7 @@ abstract class TestCase extends OrchestraTestCase
     {
         $schema = $app['db']->connection()->getSchemaBuilder();
 
-        $schema->create('posts', function (Blueprint $table) {
+        $schema->create((new Post())->getTable(), function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->text('body');
@@ -33,14 +35,14 @@ abstract class TestCase extends OrchestraTestCase
             $table->unsignedInteger('user_id');
             $table->timestamps();
         });
-        $schema->create('replies', function (Blueprint $table) {
+        $schema->create((new Reply())->getTable(), function (Blueprint $table) {
             $table->increments('id');
             $table->text('body');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('post_id');
             $table->timestamps();
         });
-        $schema->create('users', function (Blueprint $table) {
+        $schema->create((new User())->getTable(), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();

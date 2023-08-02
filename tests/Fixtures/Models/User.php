@@ -11,9 +11,10 @@ class User extends Model
 {
     use Gamify;
 
+    // used in config to alter a project level model
+    public $table = 'test_users';
+
     protected $guarded = [];
-    protected $connection = 'testbench';
-    public $table = 'users';
 
     public function posts()
     {
