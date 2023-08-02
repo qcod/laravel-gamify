@@ -28,7 +28,8 @@
     "require-dev": {
         "orchestra/testbench": "^6.25.1|^7.22.0|^8.0.0",
         "mockery/mockery": "^0.9.4 || ~1.0",
-        "phpunit/phpunit": "^9.0"
+        "pestphp/pest": "^2.11",
+        "pestphp/pest-plugin-laravel": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -52,5 +53,10 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
