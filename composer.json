@@ -30,7 +30,7 @@
         "mockery/mockery": "^0.9.4 || ~1.0",
         "pestphp/pest": "^1.23.1|^2.11",
         "pestphp/pest-plugin-laravel": "^1.4|^2.1",
-        "laravel/pint": "^1.10"
+        "laravel/pint": "^1.5"
     },
     "autoload": {
         "psr-4": {
