@@ -23,7 +23,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^8.83.27|^9.51.0|^10.0.0"
+        "illuminate/contracts": "^8.83.27|^9.51.0|^10.0.0",
+        "spatie/laravel-package-tools": "^1.12"
     },
     "require-dev": {
         "orchestra/testbench": "^6.25.1|^7.22.0|^8.0.0",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Model which will be having points, generally it will be User
     'payee_model' => '\App\User',
@@ -33,5 +35,5 @@ return [
     ],
 
     // Default level
-    'badge_default_level' => 1
+    'badge_default_level' => 1,
 ];
