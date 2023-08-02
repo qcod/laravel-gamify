@@ -19,7 +19,7 @@ function createUser(array $attributes = []): User
     return $user->fresh();
 }
 
-function createPost($attributes = []): Post
+function createPost(array $attributes = []): Post
 {
     $post = new Post();
 
@@ -32,7 +32,7 @@ function createPost($attributes = []): Post
     return $post->fresh();
 }
 
-function createBadge($attributes = []): Badge
+function createBadge(array $attributes = []): Badge
 {
     $badge = new Badge();
 
