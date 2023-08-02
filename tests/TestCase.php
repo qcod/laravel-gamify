@@ -2,10 +2,12 @@
 
 namespace QCod\Gamify\Tests;
 
-use QCod\Gamify\Badge;
-use QCod\Gamify\Tests\Models\Post;
-use QCod\Gamify\Tests\Models\User;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use QCod\Gamify\Badge;
+use QCod\Gamify\Tests\Fixtures\Badges\FirstContribution;
+use QCod\Gamify\Tests\Fixtures\Badges\FirstThousandPoints;
+use QCod\Gamify\Tests\Fixtures\Models\Post;
+use QCod\Gamify\Tests\Fixtures\Models\User;
 
 abstract class TestCase extends OrchestraTestCase
 {
@@ -16,7 +18,7 @@ abstract class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/Fixtures/database/migrations');
     }
 
     /**
@@ -31,13 +33,13 @@ abstract class TestCase extends OrchestraTestCase
             'prefix' => '',
         ]);
 
-        $app['config']->set('gamify.payee_model', '\QCod\Gamify\Tests\Models\User');
+        $app['config']->set('gamify.payee_model', '\QCod\Gamify\Tests\Fixtures\Models\User');
 
         // test badges
         $app->singleton('badges', function () {
-            return collect(['FirstContribution', 'FirstThousandPoints'])
-                ->map(function ($badge) {
-                    return app("QCod\\Gamify\\Tests\Badges\\".$badge);
+            return collect([FirstContribution::class, FirstThousandPoints::class])
+                ->map(function (string $badge) {
+                    return app($badge);
                 });
         });
     }

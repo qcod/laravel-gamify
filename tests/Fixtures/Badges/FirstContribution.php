@@ -1,18 +1,18 @@
 <?php
 
-namespace QCod\Gamify\Tests\Badges;
+namespace QCod\Gamify\Tests\Fixtures\Badges;
 
 use QCod\Gamify\BadgeType;
-use QCod\Gamify\Tests\Models\User;
+use QCod\Gamify\Tests\Fixtures\Models\User;
 
-class FirstThousandPoints extends BadgeType
+class FirstContribution extends BadgeType
 {
     /**
      * Description for badge
      *
      * @var string
      */
-    protected $description = 'Congrats! you have reached 1000 points.';
+    protected $description = 'Great! This is the begining of great things.';
 
     /**
      * Check is user qualifies for badge
@@ -22,6 +22,6 @@ class FirstThousandPoints extends BadgeType
      */
     public function qualifier($user)
     {
-        return $user->getPoints() >= 1000;
+        return $user->posts()->count() == 1;
     }
 }

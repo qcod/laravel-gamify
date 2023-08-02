@@ -1,9 +1,9 @@
 <?php
 
-namespace QCod\Gamify\Tests\Models;
+namespace QCod\Gamify\Tests\Fixtures\Models;
 
-use QCod\Gamify\Gamify;
 use Illuminate\Database\Eloquent\Model;
+use QCod\Gamify\Gamify;
 
 class User extends Model
 {

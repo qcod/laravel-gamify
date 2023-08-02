@@ -1,6 +1,8 @@
 <?php
 
-namespace QCod\Gamify\Tests;
+namespace QCod\Gamify\Tests\Feature;
+
+use QCod\Gamify\Tests\TestCase;
 
 class BadgeTest extends TestCase
 {

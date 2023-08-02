@@ -1,6 +1,6 @@
 <?php
 
-namespace QCod\Gamify\Tests\Models;
+namespace QCod\Gamify\Tests\Fixtures\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
