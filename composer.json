@@ -28,8 +28,8 @@
     "require-dev": {
         "orchestra/testbench": "^6.25.1|^7.22.0|^8.0.0",
         "mockery/mockery": "^0.9.4 || ~1.0",
-        "pestphp/pest": "^2.11",
-        "pestphp/pest-plugin-laravel": "^2.1"
+        "pestphp/pest": "^1.23.1|^2.11",
+        "pestphp/pest-plugin-laravel": "^1.4|^2.1"
     },
     "autoload": {
         "psr-4": {
