@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests\Feature;
 
 use Illuminate\Database\Eloquent\Model;
@@ -105,7 +107,7 @@ class ReputationTest extends TestCase
         $user->reducePoint(3);
 
         Event::assertDispatched(ReputationChanged::class, function ($event) use ($user) {
-            return ($event->point === 3 && $user->id == $event->user->id && !$event->increment);
+            return ($event->point === 3 && $user->id == $event->user->id && ! $event->increment);
         });
 
         $this->assertEquals(7, $user->fresh()->getPoints());
@@ -158,7 +160,7 @@ class FakeBestReply extends PointType
      */
     public function qualifier()
     {
-        return !is_null($this->getSubject()->best_reply_id);
+        return ! is_null($this->getSubject()->best_reply_id);
     }
 
     /**

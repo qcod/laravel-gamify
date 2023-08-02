@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests\Fixtures\Models;
 
 use Illuminate\Database\Eloquent\Model;

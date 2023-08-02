@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests\Feature;
 
 use QCod\Gamify\Tests\TestCase;

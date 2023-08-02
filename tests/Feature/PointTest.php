@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests\Feature;
 
 use QCod\Gamify\Exceptions\InvalidPayeeModel;
@@ -66,7 +68,7 @@ class PointTest extends TestCase
             'subject_type' => $post->getMorphClass(),
             'subject_id' => $post->id,
             'point' => 10,
-            'name' => 'FakeCreatePostPoint'
+            'name' => 'FakeCreatePostPoint',
         ]);
     }
 
@@ -345,8 +347,6 @@ class FakePayeeFieldPoint extends PointType
         $this->subject = $subject;
     }
 
-    /**
-     * @var string payee model relation on subject
-     */
+    /** @var string payee model relation on subject */
     protected $payee = 'user';
 }

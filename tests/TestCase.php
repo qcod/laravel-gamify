@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -11,9 +13,7 @@ use QCod\Gamify\Tests\Fixtures\Models\User;
 
 abstract class TestCase extends OrchestraTestCase
 {
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     protected function setUp(): void
     {
         parent::setUp();
@@ -21,9 +21,7 @@ abstract class TestCase extends OrchestraTestCase
         $this->loadMigrationsFrom(__DIR__ . '/Fixtures/database/migrations');
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
+    /** @param \Illuminate\Foundation\Application $app */
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'testbench');
@@ -66,7 +64,7 @@ abstract class TestCase extends OrchestraTestCase
         $user->forceFill(array_merge($attrs, [
             'name' => 'Saqueib',
             'email' => 'me@example.com',
-            'password' => 'secret'
+            'password' => 'secret',
         ]))->save();
 
         return $user->fresh();
@@ -85,7 +83,7 @@ abstract class TestCase extends OrchestraTestCase
         $post->forceFill(array_merge($attrs, [
             'title' => 'Dummy post title',
             'body' => 'I am the content on dummy post',
-            'user_id' => 1
+            'user_id' => 1,
         ]))->save();
 
         return $post->fresh();
