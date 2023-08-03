@@ -10,8 +10,6 @@ use QCod\Gamify\Gamify;
 
 /**
  * @property  int $id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Badge> $badges
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Reputation> $reputations
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Tests\Fixtures\Models\Post> $posts
  */
 class User extends Model

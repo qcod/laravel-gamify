@@ -2,6 +2,10 @@
 
 namespace QCod\Gamify;
 
+/**
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Badge> $badges
+ * @property-read int|null $badges_count
+ */
 trait HasBadges
 {
     /**
