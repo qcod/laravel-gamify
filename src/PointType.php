@@ -17,6 +17,7 @@ abstract class PointType
      * @var Model
      */
     protected $subject;
+    protected $payee;
 
     /**
      * Check qualification to give this point
@@ -36,7 +37,7 @@ abstract class PointType
     public function payee()
     {
         if (property_exists($this, 'payee')) {
-            return $this->getSubject()->{$this->payee};
+            return $this->payee;
         }
 
         throw new InvalidPayeeModel();
@@ -91,6 +92,16 @@ abstract class PointType
     public function setSubject($subject)
     {
         $this->subject = $subject;
+    }
+
+    /**
+     * Set a payee
+     *
+     * @param mixed $payee
+     */
+    public function setPayee($payee)
+    {
+        $this->payee = $payee;
     }
 
     /**

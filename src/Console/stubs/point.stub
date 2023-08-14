@@ -30,6 +30,12 @@ class DummyClass extends PointType
      */
     public function payee()
     {
-        return $this->getSubject()->user;
+        if (property_exists($this, 'payee')) {
+            return $this->payee;
+        }
+        else
+        {
+            return $this->getSubject()->user;
+        }
     }
 }
