@@ -1,9 +1,11 @@
 <?php
 
-namespace QCod\Gamify\Tests\Badges;
+declare(strict_types=1);
+
+namespace QCod\Gamify\Tests\Fixtures\Badges;
 
 use QCod\Gamify\BadgeType;
-use QCod\Gamify\Tests\Models\User;
+use QCod\Gamify\Tests\Fixtures\Models\User;
 
 class FirstThousandPoints extends BadgeType
 {

@@ -1,28 +1,66 @@
 <?php
 
+declare(strict_types=1);
+
 namespace QCod\Gamify\Tests;
 
-use QCod\Gamify\Badge;
-use QCod\Gamify\Tests\Models\Post;
-use QCod\Gamify\Tests\Models\User;
+use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use QCod\Gamify\GamifyServiceProvider;
+use QCod\Gamify\Tests\Fixtures\Badges\FirstContribution;
+use QCod\Gamify\Tests\Fixtures\Badges\FirstThousandPoints;
+use QCod\Gamify\Tests\Fixtures\Models\Post;
+use QCod\Gamify\Tests\Fixtures\Models\Reply;
+use QCod\Gamify\Tests\Fixtures\Models\User;
+use AddReputationFieldOnUserTable;
+use CreateGamifyTables;
 
 abstract class TestCase extends OrchestraTestCase
 {
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->setUpDatabase($this->app);
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function getEnvironmentSetUp($app)
+    protected function setUpDatabase($app): void
+    {
+        $schema = $app['db']->connection()->getSchemaBuilder();
+
+        $schema->create((new Post())->getTable(), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('body');
+            $table->unsignedInteger('best_reply_id')->nullable();
+            $table->unsignedInteger('user_id');
+            $table->timestamps();
+        });
+        $schema->create((new Reply())->getTable(), function (Blueprint $table) {
+            $table->increments('id');
+            $table->text('body');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('post_id');
+            $table->timestamps();
+        });
+        $schema->create((new User())->getTable(), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        include_once __DIR__.'/../database/migrations/add_reputation_on_user_table.php.stub';
+        (new AddReputationFieldOnUserTable())->up();
+
+        include_once __DIR__.'/../database/migrations/create_gamify_tables.php.stub';
+        (new CreateGamifyTables())->up();
+    }
+
+    /** @param \Illuminate\Foundation\Application $app */
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
@@ -31,80 +69,16 @@ abstract class TestCase extends OrchestraTestCase
             'prefix' => '',
         ]);
 
-        $app['config']->set('gamify.payee_model', '\QCod\Gamify\Tests\Models\User');
+        $app['config']->set('gamify.payee_model', User::class);
 
-        // test badges
         $app->singleton('badges', function () {
-            return collect(['FirstContribution', 'FirstThousandPoints'])
-                ->map(function ($badge) {
-                    return app("QCod\\Gamify\\Tests\Badges\\".$badge);
-                });
+            return collect([FirstContribution::class, FirstThousandPoints::class])
+                ->map(fn (string $badge) => app($badge));
         });
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
-        return ['QCod\Gamify\GamifyServiceProvider'];
-    }
-
-    /**
-     * Create a user
-     *
-     * @param array $attrs
-     * @return User
-     */
-    public function createUser($attrs = [])
-    {
-        $user = new User();
-
-        $user->forceFill(array_merge($attrs, [
-            'name' => 'Saqueib',
-            'email' => 'me@example.com',
-            'password' => 'secret'
-        ]))->save();
-
-        return $user->fresh();
-    }
-
-    /**
-     * Create a post
-     *
-     * @param array $attrs
-     * @return Post
-     */
-    public function createPost($attrs = [])
-    {
-        $post = new Post();
-
-        $post->forceFill(array_merge($attrs, [
-            'title' => 'Dummy post title',
-            'body' => 'I am the content on dummy post',
-            'user_id' => 1
-        ]))->save();
-
-        return $post->fresh();
-    }
-
-    /**
-     * Create a badge
-     *
-     * @param array $attrs
-     * @return Badge
-     */
-    public function createBadge($attrs = [])
-    {
-        $badge = new Badge();
-
-        $badge->forceFill(array_merge($attrs, [
-            'name' => 'New Member',
-            'description' => 'Welcome new user',
-            'icon' => 'images/new-member-icon.svg',
-        ]))->save();
-
-        return $badge->fresh();
+        return [GamifyServiceProvider::class];
     }
 }
