@@ -10,56 +10,37 @@ use QCod\Gamify\Console\MakeBadgeCommand;
 use QCod\Gamify\Console\MakePointCommand;
 use QCod\Gamify\Events\ReputationChanged;
 use Illuminate\Support\Facades\File;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class GamifyServiceProvider extends ServiceProvider
+
+class GamifyServiceProvider extends PackageServiceProvider
 {
-    /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
+
+    public function configurePackage(Package $package): void
     {
-        // publish config
-        $this->publishes([
-            __DIR__ . '/config/gamify.php' => config_path('gamify.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom(__DIR__ . '/config/gamify.php', 'gamify');
-
-        // publish migration
-        if (!class_exists('CreateGamifyTables')) {
-            $timestamp = date('Y_m_d_His', time());
-            $this->publishes([
-                __DIR__ . '/migrations/create_gamify_tables.php.stub' => database_path("/migrations/{$timestamp}_create_gamify_tables.php"),
-                __DIR__ . '/migrations/add_reputation_on_user_table.php.stub' => database_path("/migrations/{$timestamp}_add_reputation_field_on_user_table.php"),
-            ], 'migrations');
-        }
-
-        // register commands
-        if ($this->app->runningInConsole()) {
-            $this->commands([
+        $package->name('gamify')
+            ->hasConfigFile()
+            ->hasMigrations([
+                'add_reputation_on_user_table',
+                'create_gamify_tables',
+            ])
+            ->hasCommands([
                 MakePointCommand::class,
                 MakeBadgeCommand::class,
             ]);
-        }
+    }
 
-        // register event listener
+    public function packageBooted(): void
+    {
         Event::listen(ReputationChanged::class, SyncBadges::class);
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function packageRegistered(): void
     {
         $this->app->singleton('badges', function () {
             return cache()->rememberForever('gamify.badges.all', function () {
-                return $this->getBadges()->map(function ($badge) {
-                    return new $badge;
-                });
+                return $this->getBadges()->map(fn($badge) => new $badge);
             });
         });
     }
@@ -67,9 +48,9 @@ class GamifyServiceProvider extends ServiceProvider
     /**
      * Get all the badge inside app/Gamify/Badges folder
      *
-     * @return Collection
+     * @return Collection<int, class-string>
      */
-    protected function getBadges()
+    protected function getBadges(): Collection
     {
         $badgeRootNamespace = config(
             'gamify.badge_namespace',

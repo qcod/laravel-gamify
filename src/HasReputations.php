@@ -4,6 +4,10 @@ namespace QCod\Gamify;
 
 use QCod\Gamify\Events\ReputationChanged;
 
+/**
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Reputation> $reputations
+ * @property-read int|null $reputations_count
+ */
 trait HasReputations
 {
     /**
