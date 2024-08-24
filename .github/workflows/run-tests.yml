@@ -40,7 +40,7 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-          composer require nesbot/carbon: 2.*
+          composer require nesbot/carbon:^2.7
 
       - name: List Installed Dependencies
         run: composer show -D
