@@ -9,8 +9,10 @@ use Illuminate\Support\ServiceProvider;
 use QCod\Gamify\Console\MakeBadgeCommand;
 use QCod\Gamify\Console\MakePointCommand;
 use QCod\Gamify\Events\ReputationChanged;
+use Illuminate\Support\Facades\File;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+
 
 class GamifyServiceProvider extends PackageServiceProvider
 {
@@ -57,9 +59,14 @@ class GamifyServiceProvider extends PackageServiceProvider
 
         $badges = [];
 
-        foreach (glob(app_path('/Gamify/Badges/') . '*.php') as $file) {
-            if (is_file($file)) {
-                $badges[] = app($badgeRootNamespace . '\\' . pathinfo($file, PATHINFO_FILENAME));
+        foreach (File::allFiles(app_path('/Gamify/Badges')) as $file) {
+
+            if ($file->getExtension() === 'php') {
+
+                $subPath = str_replace('/', '\\', $file->getRelativePathName());
+                $name = str_replace('.php', '', $subPath);
+
+                $badges[] = app($badgeRootNamespace . '\\' . $name);
             }
         }
 
