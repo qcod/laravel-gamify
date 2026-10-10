@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property  int $id
- * @property-read \QCod\Gamify\Tests\Fixtures\Models\User $user
- * @property-read \QCod\Gamify\Tests\Fixtures\Models\Post $post
+ * @property-read User $user
+ * @property-read Post $post
  */
 class Reply extends Model
 {

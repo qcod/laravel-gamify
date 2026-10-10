@@ -10,7 +10,7 @@ use QCod\Gamify\Gamify;
 
 /**
  * @property  int $id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Tests\Fixtures\Models\Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
  */
 class User extends Model
 {

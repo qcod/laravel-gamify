@@ -13,10 +13,10 @@ use QCod\Gamify\Reputation;
 
 /**
  * @property  int $id
- * @property-read \Illuminate\Database\Eloquent\Collection|\QCod\Gamify\Tests\Fixtures\Models\Reply[] $replies
- * @property-read \QCod\Gamify\Tests\Fixtures\Models\User $user
- * @property-read \QCod\Gamify\Tests\Fixtures\Models\Reply|null $bestReply
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \QCod\Gamify\Reputation> $reputations
+ * @property-read \Illuminate\Database\Eloquent\Collection|Reply[] $replies
+ * @property-read User $user
+ * @property-read Reply|null $bestReply
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Reputation> $reputations
  */
 class Post extends Model
 {
