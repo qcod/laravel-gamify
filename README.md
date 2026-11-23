@@ -7,6 +7,13 @@
 
 Use `qcod/laravel-gamify` to quickly add reputation point &amp; badges in your Laravel app.
 
+### Requirements
+
+- Laravel 12: PHP 8.2 - 8.5
+- Laravel 13: PHP 8.3 - 8.5
+
+Older Laravel versions remain available through the package's Composer constraints.
+
 ### Installation
 
 **1** - You can install the package via composer:
@@ -15,18 +22,7 @@ Use `qcod/laravel-gamify` to quickly add reputation point &amp; badges in your L
 $ composer require qcod/laravel-gamify
 ```
 
-**2** - If you are installing on Laravel 5.4 or lower you will be needed to manually register Service Provider by adding it in `config/app.php` providers array.
-
-```php
-'providers' => [
-    //...
-    QCod\Gamify\GamifyServiceProvider::class
-]
-```
-
-In Laravel 5.5 and above the service provider automatically.
-
-**3** - Now publish the migration for gamify tables:
+**2** - The service provider is automatically registered. Publish the migration for gamify tables:
 
 ```
 php artisan vendor:publish --provider="QCod\Gamify\GamifyServiceProvider" --tag="migrations"
